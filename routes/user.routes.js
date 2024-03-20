@@ -1,8 +1,8 @@
 const express = require("express")
+const {UserModel} = require("../model/user.model")
 const bcrypt = require("bcrypt")
 const userRouter= express.Router()
 const jwt = require("jsonwebtoken")
-const { UserModel } = require("../models/user.model")
 
 //Adding new user
 
@@ -44,7 +44,7 @@ userRouter.post("/login",async(req,res)=>{
          });       
      } 
     catch (error) {
-       res.send({"error":error})
+       res.send({"error":"User Not Found"})
        
     }
 })
