@@ -6,8 +6,6 @@ const auth = (req,res,next)=>{
     if(token){
         const decoded = jwt.verify(token,"masai")
         if(decoded){
-            req.body.userID = decoded.userID
-            req.body.author = decoded.author
             next()
         }
         else{

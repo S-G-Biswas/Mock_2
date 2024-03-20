@@ -6,26 +6,27 @@ const jwt = require("jsonwebtoken")
 const {auth} = require("../middleware/auth")
 
 
-//Adding new notes
+
+//Adding new book
 
 bookRouter.post("/",auth,async(req,res)=>{
     try {
         const note = new BooksModel(req.body)
         await note.save()
-        res.send({"msg":"Newnote is added"})
+        res.send({"msg":"New Book is added"})
     } 
     catch (error) {
         res.send({"Erroe":error})
     }
 })
 
-//Getting all the notes of logged user
+//Getting all the books 
 
 bookRouter.get("/",auth,async(req,res)=>{
     
     try {
-         const notes = await BooksModel.find({userID:req.body.userID})
-         res.send({notes})
+         const books = await BooksModel.find()
+         res.send({books})
     } 
     catch (error) {
         res.send({"error":error})
@@ -33,15 +34,15 @@ bookRouter.get("/",auth,async(req,res)=>{
 })
 
 
-//update notes
-notesRouter.patch("/:noteID",auth,async(req,res)=>{
-    const {noteID} = req.params
+//update books
+bookRouter.patch("/:bookID",auth,async(req,res)=>{
+    const {bookID} = req.params
     try {
-        const note = await BooksModel.findOne({_id:noteID})
+        const note = await BooksModel.findOne({_id:bookID})
 
-        if(note.userID === req.body.userID){
-            await NotesModel.findByIdAndUpdate({_id:noteID},req.body)
-            res.send({"msg":`The Note with id ${noteID} has been updated`}) 
+        if(note.bookID === req.body.userID){
+            await BooksModel.findByIdAndUpdate({_id:bookID},req.body)
+            res.send({"msg":`The book with id ${bookID} has been updated`}) 
         }
         else{
             res.send({"msg":"you are not authorised"})
@@ -53,15 +54,15 @@ notesRouter.patch("/:noteID",auth,async(req,res)=>{
     }
 })
 
-//delete notes
-notesRouter.delete("/:noteID",auth,async(req,res)=>{
-    const {noteID} = req.params
+//delete books
+bookRouter.delete("/:bookID",auth,async(req,res)=>{
+    const {bookID} = req.params
     try {
-        const note = await BooksModel.findOne({_id:noteID})
+        const book = await BooksModel.findOne({_id:bookID})
 
-        if(note.userID === req.body.userID){
-            await NotesModel.findByIdAndDelete({_id:noteID})
-            res.send({"msg":`The Note with id ${noteID} has been deleted`}) 
+        if(book.bookID === req.body.bookID){
+            await BooksModel.findByIdAndDelete({_id:bookID})
+            res.send({"msg":`The Note with id ${bookID} has been deleted`}) 
         }
         else{
             res.send({"msg":"you are not authorised"})
