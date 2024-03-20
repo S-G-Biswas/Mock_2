@@ -2,11 +2,11 @@ const express = require("express");
 require("dotenv").config()
 const {connection} =require("./config/db")
 const {userRouter} = require("./routes/user.routes")
-const {notesRouter} = require("./routes/note.route")
+const {bookRouter} = require("./routes/note.route")
 const app = express();
 app.use(express.json());
 app.use("/users",userRouter)
-app.use("/notes", notesRouter)
+app.use("/books", bookRouter)
 
 //Public Routes
 
